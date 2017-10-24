@@ -3,36 +3,46 @@ class Spaceship extends Floater {
 	public Spaceship() {
 
 		corners = 8;
-		xCorners = new int[corners];
-		yCorners = new int[corners];
-		xCorners[0] = 12;
-		yCorners[0] = 0;
-		xCorners[1] = 0;
-		yCorners[1] = -9;
-		xCorners[2] = -6;
-		yCorners[2] = -5;
-		xCorners[3] = -2;
-		yCorners[3] = -3;
-		xCorners[4] = -12;
-		yCorners[4] = 0;
-		xCorners[5] = -2;
-		yCorners[5] = 3;
-		xCorners[6] = -6;
-		yCorners[6] = 5;
-		xCorners[7] = 0;
-		yCorners[7] = 9;
+		int[] x = {12, 0, -6, -2, -12, -2, -6, 0};
+		int[] y = {0, -9, -5, -3, 0, 3, 5, 9};
+		xCorners = x;
+		yCorners = y;
 		myColor = color(255);
-		myCenterX = 0;
-		myCenterY = 0;
+		myCenterX = 200;
+		myCenterY = 200;
 		myDirectionX = 0;
 		myDirectionY = 0;
 		myPointDirection = 0;
 
 	}   
 
-	public void setX() { myCenterX = x; }
-	public int getX() { return myCenterX; }
-	public void setY() { myCenterY = y; }
-	public int getY() { return myCenterY; }
+	public void setX(int x) { myCenterX = x; }
+
+	public int getX() { return (int)myCenterX; }
+	
+	public void setY(int y) { myCenterY = y; }
+	
+	public int getY() { return (int)myCenterY; }
+	
+	public void setDirectionX(double x) { myDirectionX = x; }
+	
+	public double getDirectionX() { return myDirectionX; }
+	
+	public void setDirectionY(double y) { myDirectionY = y; }
+	
+	public double getDirectionY() { return myDirectionY; }
+	
+	public void setPointDirection(int degrees) { myPointDirection = degrees; }   
+    
+    public double getPointDirection() { return myPointDirection; } 
+
+    public void hyperSpace() {
+
+    	myDirectionX = 0;
+    	myDirectionY = 0;
+    	myCenterX = (int)(Math.random() * 1000);
+    	myCenterY = (int)(Math.random() * 1000);
+
+    }
 
 }
