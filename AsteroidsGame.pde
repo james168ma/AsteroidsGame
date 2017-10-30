@@ -1,13 +1,14 @@
-public Spaceship playerShip = new Spaceship();
-public Stars[] starField = new Stars[((int)Math.random()*300) + 300]; 
-public boolean keyWPressed = false;
-public boolean keyAPressed = false;
-public boolean keySPressed = false;
-public boolean keyDPressed = false;
-public boolean keyHPressed = false;
+private Spaceship playerShip = new Spaceship();
+private Stars[] starField = new Stars[((int)Math.random()*300) + 300]; 
+private boolean keyWPressed = false;
+private boolean keyAPressed = false;
+private boolean keySPressed = false;
+private boolean keyDPressed = false;
+private boolean keyHPressed = false;
+
 public void setup() {
 
-	size(1000, 1000);
+	size(1000, 800);
 	background(0);
 	for(int i = 0; i < starField.length; i++) 
 		starField[i] = new Stars();
@@ -50,22 +51,35 @@ public void keyReleased() {
 
 public void controlShip(Spaceship ship) {
 
-	if(keyWPressed == true)
+	if(keyWPressed == true) {
+
   		ship.accelerate(.1);
+  		ship.setAccelerating(true);
+
+	} else 
+		ship.setAccelerating(false);
+	
+
   	if(keyAPressed == true)
   		ship.turn(-5);
-  	if(keySPressed == true)
+
+  	if(keySPressed == true) {
+
   		ship.accelerate(-.1);
+
+  	}
+
   	if(keyDPressed == true)
   		ship.turn(5);
 
   	if(keyHPressed == true) {
 
   		ship.setX((int)(Math.random() * 1000));
-		ship.setY((int)(Math.random() * 1000));
+		ship.setY((int)(Math.random() * 800));
 		ship.setDirectionX(0);
 		ship.setDirectionY(0);
 		ship.setPointDirection((int)(Math.random() * 181));
+		keyHPressed = false;
 
   	}
 

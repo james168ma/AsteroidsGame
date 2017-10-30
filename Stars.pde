@@ -5,7 +5,7 @@ class Stars { //note that this class does NOT extend Floater
 	public Stars() {
 
 		centerX = (int)(Math.random() * 1000);
-		centerY = (int)(Math.random() * 1000);
+		centerY = (int)(Math.random() * 800);
 		size = (int)(Math.random() * 5) + 1;
 
 	}
@@ -17,6 +17,7 @@ class Stars { //note that this class does NOT extend Floater
 	public void show() {
 
 		fill(255);
+		stroke(255);
 		ellipse (centerX, centerY, size, size);
 
 	}
