@@ -34,27 +34,9 @@ class Asteroid extends Floater {
 
     public void move() {   //move the floater in the current direction of travel
        
-	    //change the x and y coordinates by myDirectionX and myDirectionY       
-	    myCenterX += myDirectionX;    
-	    myCenterY += myDirectionY; 
+		turn(rotateSpeed);
+		super.move();
 
-	   	//turn the Asteroid
-	   	myPointDirection += rotateSpeed;
-
-	    //wrap around screen    
-	    if(myCenterX >width) {     
-	      myCenterX = 0;    
-	    }    
-	    else if (myCenterX<0) {     
-	      myCenterX = width;    
-	    }    
-	    if(myCenterY >height) {    
-	      myCenterY = 0;    
-	    } 
-	    else if (myCenterY < 0) {     
-	      myCenterY = height;    
-	    }   
-
-    }  
+	}
 
 }

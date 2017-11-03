@@ -1,7 +1,13 @@
 public final static int NUM_ASTEROIDS = 5;
+public final static int NUM_STARS = (int)(Math.random()*300) + 300;
+
+
+//private Stars[] starField = new Stars[((int)Math.random()*300) + 300]; 
 private Spaceship playerShip = new Spaceship();
-private Stars[] starField = new Stars[((int)Math.random()*300) + 300]; 
-private Asteroid[] rocks = new Asteroid[NUM_ASTEROIDS];
+private ArrayList <Stars> starField = new ArrayList <Stars>();
+private ArrayList <Asteroid> rocks = new ArrayList <Asteroid>();
+
+
 private boolean keyWPressed = false;
 private boolean keyAPressed = false;
 private boolean keySPressed = false;
@@ -12,11 +18,11 @@ public void setup() {
 
 	size(1000, 800);
 	background(0);
-	for(int i = 0; i < starField.length; i++) 
-		starField[i] = new Stars();
+	for(int i = 0; i < NUM_STARS; i++) 
+		starField.add(new Stars());
 
-	for(int i = 0; i < rocks.length; i++) 
-		rocks[i] = new Asteroid();
+	for(int i = 0; i < NUM_ASTEROIDS; i++) 
+		rocks.add(new Asteroid());
 
 }
 
@@ -24,12 +30,12 @@ public void draw() {
 
 	background(0);
 
-	for(int i = 0; i < starField.length; i++)
-		starField[i].show();
+	for(int i = 0; i < starField.size(); i++)
+		starField.get(i).show();
 
-	for(int i = 0; i < rocks.length; i++) {
-		rocks[i].move();
-		rocks[i].show();
+	for(int i = 0; i < rocks.size(); i++) {
+		rocks.get(i).move();
+		rocks.get(i).show();
 	}
 
 	playerShip.move();
