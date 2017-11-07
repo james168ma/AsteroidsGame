@@ -10,6 +10,7 @@ class Stars { //note that this class does NOT extend Floater
 
 	}
 
+	//not sure if I will use these getters and setters
 	public int getX() { return centerX; }
 	public int getY() { return centerY; }
 	public int getSize() { return size; }

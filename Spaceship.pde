@@ -1,5 +1,6 @@
 class Spaceship extends Floater {
 
+	//all new private variables are for making the jet rocket animation
 	private boolean accelerating;
 	private int jetCorners;
 	private int[] xJetCorners, yJetCorners;
@@ -11,11 +12,13 @@ class Spaceship extends Floater {
 		int[] y = {0, -9, -5, -3, 0, 3, 5, 9};
 		xCorners = x;
 		yCorners = y;
+
 		jetCorners = 6;
 		int[] jetX = {-12, -2, -6, -17, -6, -2};
 		int[] jetY = {0, -3, -5, 0, 5, 3};
 		xJetCorners = jetX;
 		yJetCorners = jetY;
+
 		myColor = color(255);
 		myCenterX = 200;
 		myCenterY = 200;
@@ -39,7 +42,8 @@ class Spaceship extends Floater {
     public void setAccelerating(boolean b) { accelerating = b; }
     public boolean getAccelerating() { return accelerating; }
 
-    public void show () {  //Draws the floater at the current position             
+    public void show () {  //Draws the floater at the current position  
+               
 	    fill(myColor);   
 	    stroke(myColor);    
 	    

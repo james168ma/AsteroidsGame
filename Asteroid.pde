@@ -1,6 +1,6 @@
 class Asteroid extends Floater {
 
-	private int rotateSpeed;
+	private int rotateSpeed; //new variable for rotation of asteroids
 
 	public Asteroid() {
 
@@ -15,7 +15,7 @@ class Asteroid extends Floater {
 		myDirectionX = Math.random()*7-3;
 		myDirectionY = Math.random()*7-3;
 		myPointDirection = 0;
-		rotateSpeed = (int)(Math.random()*7)-3;
+		rotateSpeed = (int)(Math.random()*7)-3; //set random rotateSpeed from -3 to 3
 
 	}   
 
@@ -33,10 +33,13 @@ class Asteroid extends Floater {
     public int getRotateSpeed() { return rotateSpeed; }
 
     public void move() {   //move the floater in the current direction of travel
-       
-		turn(rotateSpeed);
-		super.move();
+
+		turn(rotateSpeed); //turn asteroid by the rotateSpeed
+		super.move(); //calling the super.move function
 
 	}
+
+	//finds distance from any spaceship
+	public float distFromShip(Spaceship ship) { return dist((float)myCenterX, (float)myCenterY, ship.getX(), ship.getY()); }
 
 }
