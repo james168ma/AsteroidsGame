@@ -1,12 +1,12 @@
 class Asteroid extends Floater {
 
-	private int rotateSpeed; //new variable for rotation of asteroids
+	protected int rotateSpeed; //new variable for rotation of asteroids
 
 	public Asteroid() {
 
 		corners = 8;
-		int[] x = {12, 8, 0, -8, -12, -8, 0, 8};
-		int[] y = {0, -8, -12, -8, 0, 8, 12, 8};
+		int[] x = {(int)(Math.random()*24)+12, (int)(Math.random()*16)+8, 0, -((int)(Math.random()*16)+8), -((int)(Math.random()*24)+12), -((int)(Math.random()*16)+8), 0, (int)(Math.random()*16)+8};
+		int[] y = {0, -((int)(Math.random()*16)+8), -((int)(Math.random()*24)+12), -((int)(Math.random()*16)+8), 0, (int)(Math.random()*16)+8, ((int)(Math.random()*24)+12), (int)(Math.random()*16)+8};
 		xCorners = x;
 		yCorners = y;
 		myColor = color(51, 25, 0);
@@ -40,6 +40,6 @@ class Asteroid extends Floater {
 	}
 
 	//finds distance from any spaceship
-	public float distFromShip(Spaceship ship) { return dist((float)myCenterX, (float)myCenterY, ship.getX(), ship.getY()); }
+	public float distFromFloater(Floater thing) { return dist((float)myCenterX, (float)myCenterY, (float)thing.getX(), (float)thing.getY()); }
 
 }
