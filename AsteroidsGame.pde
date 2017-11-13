@@ -23,6 +23,7 @@ private boolean keyDPressed = false;
 private boolean keyHPressed = false;
 private boolean spacePressed = false;
 
+
 public void setup() {
 
 	//initiating size and background
@@ -37,6 +38,7 @@ public void setup() {
 		rocks.add(new Asteroid());
 
 }
+
 
 public void draw() {
 
@@ -77,6 +79,7 @@ public void draw() {
 
 }
 
+
 //changing boolean values of the keys being pressed to true
 public void keyPressed() {
 
@@ -89,6 +92,7 @@ public void keyPressed() {
 
 }
 
+
 //changing boolean values of the keys being pressed to false
 public void keyReleased() {
 
@@ -100,6 +104,7 @@ public void keyReleased() {
 	if (key == ' ') { spacePressed = false; }
 
 }
+
 
 //function to control a ship
 public void controlShip(Spaceship ship) {
@@ -135,6 +140,7 @@ public void controlShip(Spaceship ship) {
 
 }
 
+
 //comprehensive function for asteroids -- basically do all the important stuff for asteroids
 public void asteroidEssentials(ArrayList <Asteroid> asteroids, int radius, String s) {
 
@@ -147,7 +153,7 @@ public void asteroidEssentials(ArrayList <Asteroid> asteroids, int radius, Strin
 		if(asteroids.get(i).distFromFloater(playerShip) <= radius) {
 
 			//split asteroid into 4 if it is big
-			if(s == "big") {
+			if(s.equals("big")) {
 
 				for(int j = 0; j < 4; j++)
 						smallRocks.add(new SmallAsteroid(rocks.get(i)));
@@ -164,7 +170,7 @@ public void asteroidEssentials(ArrayList <Asteroid> asteroids, int radius, Strin
 			if(asteroids.get(i).distFromFloater(bullets.get(nI)) <= radius) {
 
 				//split asteroid into 4 if it is big
-				if(s == "big") {
+				if(s.equals("big")) {
 
 					for(int j = 0; j < 4; j++)
 						smallRocks.add(new SmallAsteroid(rocks.get(i)));
