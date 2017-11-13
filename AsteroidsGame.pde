@@ -10,6 +10,7 @@ public final static int MAX_BULLET_LIFE = 200;
 
 //Making new arrays and instances of objects
 private Spaceship playerShip = new Spaceship();
+private ArrayList <Spaceship> enemies = new ArrayList <Spaceship>();
 private ArrayList <Stars> starField = new ArrayList <Stars>();
 private ArrayList <Asteroid> rocks = new ArrayList <Asteroid>();
 private ArrayList <Asteroid> smallRocks = new ArrayList <Asteroid>();
@@ -37,6 +38,9 @@ public void setup() {
 	for(int i = 0; i < NUM_ASTEROIDS; i++) 
 		rocks.add(new Asteroid());
 
+	//make new enemy
+	enemies.add(new Spaceship());
+
 }
 
 
@@ -52,9 +56,18 @@ public void draw() {
 	asteroidEssentials(rocks, BIG_A_RADIUS, "big");
 	asteroidEssentials(smallRocks, SMALL_A_RADIUS, "small");
 
-	//show and move player's ship
+	//control, move, and show player's ship
+  	controlPlayerShip(playerShip);
 	playerShip.move();
   	playerShip.show();
+
+  	//show and move enemy ships
+  	for(int i = 0;i < enemies.size(); i++) {
+
+  		enemies.get(i).move();
+  		enemies.get(i).show();
+
+  	}
 
   	//show, move, and remove bullets
 	for(int i = 0; i < bullets.size(); i++) {
@@ -69,9 +82,6 @@ public void draw() {
 			bullets.remove(i);
 
 	}
-
-  	//calling function to control the ship
-  	controlShip(playerShip);
 
   	//add new bullets
   	if((spacePressed == true) && (bullets.size() <= MAX_NUM_BULLETS)) 
@@ -106,8 +116,8 @@ public void keyReleased() {
 }
 
 
-//function to control a ship
-public void controlShip(Spaceship ship) {
+//function to control a player's ship
+public void controlPlayerShip(Spaceship ship) {
 
 	if(keyWPressed == true) {
 
@@ -141,8 +151,18 @@ public void controlShip(Spaceship ship) {
 }
 
 
+//function to control enemy ships. eShip is the ship that is being controlled, pShip is player's ship (ship that eShip targets)
+public void controlEnemyShip(Spaceship eShip, Spaceship pShip) {
+
+	eShip.accelerate(.1);
+	eShip.setAccelerating(true);
+	//if()
+
+}
+
+
 //comprehensive function for asteroids -- basically do all the important stuff for asteroids
-public void asteroidEssentials(ArrayList <Asteroid> asteroids, int radius, String s) {
+public void asteroidEssentials(ArrayList <Asteroid> asteroids, int radius, String description) {
 
 	for(int i = 0; i < asteroids.size(); i++) {
 
@@ -153,7 +173,7 @@ public void asteroidEssentials(ArrayList <Asteroid> asteroids, int radius, Strin
 		if(asteroids.get(i).distFromFloater(playerShip) <= radius) {
 
 			//split asteroid into 4 if it is big
-			if(s.equals("big")) {
+			if(description.equals("big")) {
 
 				for(int j = 0; j < 4; j++)
 						smallRocks.add(new SmallAsteroid(rocks.get(i)));
@@ -170,7 +190,7 @@ public void asteroidEssentials(ArrayList <Asteroid> asteroids, int radius, Strin
 			if(asteroids.get(i).distFromFloater(bullets.get(nI)) <= radius) {
 
 				//split asteroid into 4 if it is big
-				if(s.equals("big")) {
+				if(description.equals("big")) {
 
 					for(int j = 0; j < 4; j++)
 						smallRocks.add(new SmallAsteroid(rocks.get(i)));
