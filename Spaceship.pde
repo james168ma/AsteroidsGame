@@ -5,7 +5,7 @@ class Spaceship extends Floater {
 	private int jetCorners;
 	private int[] xJetCorners, yJetCorners;
 	
-	public Spaceship() {
+	public Spaceship(int startX, int startY) {
 
 		corners = 8;
 		int[] x = {12, 0, -6, -2, -12, -2, -6, 0};
@@ -20,8 +20,8 @@ class Spaceship extends Floater {
 		yJetCorners = jetY;
 
 		myColor = color(255);
-		myCenterX = 200;
-		myCenterY = 200;
+		myCenterX = startX;
+		myCenterY = startY;
 		myDirectionX = 0;
 		myDirectionY = 0;
 		myPointDirection = 0;

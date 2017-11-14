@@ -40,4 +40,5 @@ class Bullet extends Floater {
 	    ellipse((float)myCenterX, (float)myCenterY, 2, 2);
 
     } 
+    
 }

@@ -9,7 +9,7 @@ public final static int MAX_NUM_BULLETS = 50;
 public final static int MAX_BULLET_LIFE = 200;
 
 //Making new arrays and instances of objects
-private Spaceship playerShip = new Spaceship();
+private Spaceship playerShip = new Spaceship(500, 400);
 private ArrayList <Spaceship> enemies = new ArrayList <Spaceship>();
 private ArrayList <Stars> starField = new ArrayList <Stars>();
 private ArrayList <Asteroid> rocks = new ArrayList <Asteroid>();
@@ -39,7 +39,7 @@ public void setup() {
 		rocks.add(new Asteroid());
 
 	//make new enemy
-	enemies.add(new Spaceship());
+	enemies.add(new Spaceship(200, 200));
 
 }
 
@@ -64,6 +64,7 @@ public void draw() {
   	//show and move enemy ships
   	for(int i = 0;i < enemies.size(); i++) {
 
+  		controlEnemyShip(enemies.get(i), playerShip);
   		enemies.get(i).move();
   		enemies.get(i).show();
 
@@ -78,8 +79,10 @@ public void draw() {
 		//for removing bullets so they don't stay forever
 		bullets.get(i).setBulletLife(bullets.get(i).getBulletLife()+1);
 
-		if(bullets.get(i).getBulletLife() > MAX_BULLET_LIFE)
+		if(bullets.get(i).getBulletLife() > MAX_BULLET_LIFE) {
 			bullets.remove(i);
+			i--;
+		}
 
 	}
 
@@ -156,7 +159,7 @@ public void controlEnemyShip(Spaceship eShip, Spaceship pShip) {
 
 	eShip.accelerate(.1);
 	eShip.setAccelerating(true);
-	//if()
+	//eShip.setPointDirection((int)(180 * atan( (eShip.getY() - pShip.getY()) / (eShip.getX() - pShip.getX()) ) / 2*PI));
 
 }
 
@@ -181,6 +184,7 @@ public void asteroidEssentials(ArrayList <Asteroid> asteroids, int radius, Strin
 			}
 
 			asteroids.remove(i);
+			i--;
 
 		}
 
@@ -198,7 +202,9 @@ public void asteroidEssentials(ArrayList <Asteroid> asteroids, int radius, Strin
 				}
 
 				asteroids.remove(i);
+				i--;
 				bullets.remove(nI);
+				nI--;
 				break;
 
 			}
