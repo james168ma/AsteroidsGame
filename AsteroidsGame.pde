@@ -10,7 +10,7 @@ public final static int MAX_BULLET_LIFE = 200;
 
 //Making new arrays and instances of objects
 private Spaceship playerShip = new Spaceship(500, 400);
-private ArrayList <Spaceship> enemies = new ArrayList <Spaceship>();
+private ArrayList <EnemyShip> enemies = new ArrayList <EnemyShip>();
 private ArrayList <Stars> starField = new ArrayList <Stars>();
 private ArrayList <Asteroid> rocks = new ArrayList <Asteroid>();
 private ArrayList <Asteroid> smallRocks = new ArrayList <Asteroid>();
@@ -39,7 +39,7 @@ public void setup() {
 		rocks.add(new Asteroid());
 
 	//make new enemy
-	enemies.add(new Spaceship(200, 200));
+	enemies.add(new EnemyShip());
 
 }
 
@@ -64,8 +64,7 @@ public void draw() {
   	//show and move enemy ships
   	for(int i = 0;i < enemies.size(); i++) {
 
-  		controlEnemyShip(enemies.get(i), playerShip);
-  		enemies.get(i).move();
+  		enemies.get(i).move(playerShip);
   		enemies.get(i).show();
 
   	}
@@ -152,17 +151,6 @@ public void controlPlayerShip(Spaceship ship) {
   	}
 
 }
-
-
-//function to control enemy ships. eShip is the ship that is being controlled, pShip is player's ship (ship that eShip targets)
-public void controlEnemyShip(Spaceship eShip, Spaceship pShip) {
-
-	eShip.accelerate(.1);
-	eShip.setAccelerating(true);
-	//eShip.setPointDirection((int)(180 * atan( (eShip.getY() - pShip.getY()) / (eShip.getX() - pShip.getX()) ) / 2*PI));
-
-}
-
 
 //comprehensive function for asteroids -- basically do all the important stuff for asteroids
 public void asteroidEssentials(ArrayList <Asteroid> asteroids, int radius, String description) {

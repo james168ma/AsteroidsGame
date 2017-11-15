@@ -1,9 +1,9 @@
 class Spaceship extends Floater {
 
 	//all new private variables are for making the jet rocket animation
-	private boolean accelerating;
-	private int jetCorners;
-	private int[] xJetCorners, yJetCorners;
+	protected boolean accelerating;
+	protected int jetCorners, jetColor, MAX_VELOCITY;
+	protected int[] xJetCorners, yJetCorners;
 	
 	public Spaceship(int startX, int startY) {
 
@@ -18,6 +18,7 @@ class Spaceship extends Floater {
 		int[] jetY = {0, -3, -5, 0, 5, 3};
 		xJetCorners = jetX;
 		yJetCorners = jetY;
+		jetColor = color(255, 0, 0);
 
 		myColor = color(255);
 		myCenterX = startX;
@@ -26,6 +27,7 @@ class Spaceship extends Floater {
 		myDirectionY = 0;
 		myPointDirection = 0;
 		accelerating = false;
+		MAX_VELOCITY = 10;
 
 	}   
 
@@ -41,6 +43,35 @@ class Spaceship extends Floater {
     public double getPointDirection() { return myPointDirection; } 
     public void setAccelerating(boolean b) { accelerating = b; }
     public boolean getAccelerating() { return accelerating; }
+
+    public void move () {
+
+	    //Limit velocity
+	    if(myDirectionX > MAX_VELOCITY) 
+	    	myDirectionX = MAX_VELOCITY;
+	    if(myDirectionX < -(MAX_VELOCITY)) 
+	    	myDirectionX = -(MAX_VELOCITY);
+	    if(myDirectionY > MAX_VELOCITY) 
+	    	myDirectionY = MAX_VELOCITY;
+	    if(myDirectionY < -(MAX_VELOCITY)) 
+	    	myDirectionY = -(MAX_VELOCITY);
+	    
+	    //change the x and y coordinates by myDirectionX and myDirectionY       
+	    myCenterX += myDirectionX;    
+	    myCenterY += myDirectionY;     
+
+	    //wrap around screen    
+	    if(myCenterX >width)    
+	    	myCenterX = 0;    
+	    else if (myCenterX<0)   
+	    	myCenterX = width;    
+
+	    if(myCenterY >height)
+	    	myCenterY = 0;   
+	    else if (myCenterY < 0) 
+	    	myCenterY = height; 
+
+    } 
 
     public void show () {  //Draws the floater at the current position  
                
@@ -67,8 +98,8 @@ class Spaceship extends Floater {
 	    //draw the rockets when accelerating
 	    if(accelerating == true) {
 
-	    	fill(255, 0, 0);
-	    	stroke(255, 0, 0);
+	    	fill(jetColor);
+	    	stroke(jetColor);
 
 	    	beginShape();
 	    	for (int i = 0; i < jetCorners; i++) 
