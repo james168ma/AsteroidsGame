@@ -173,6 +173,7 @@ public void asteroidEssentials(ArrayList <Asteroid> asteroids, int radius, Strin
 
 			asteroids.remove(i);
 			i--;
+			break;
 
 		}
 
