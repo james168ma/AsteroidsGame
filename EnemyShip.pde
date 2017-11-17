@@ -59,9 +59,9 @@ class EnemyShip extends Spaceship {
 	    myCenterY += myDirectionY;     
 
 	    //wrap around screen    
-	    if(myCenterX >width)    
+	    if(myCenterX > width)    
 	    	myCenterX = 0;    
-	    else if (myCenterX<0)   
+	    else if (myCenterX < 0)   
 	    	myCenterX = width;    
 
 	    if(myCenterY >height)

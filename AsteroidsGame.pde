@@ -3,8 +3,9 @@ public final static int SCREEN_SIZE_X = 1000;
 public final static int SCREEN_SIZE_Y = 800;
 public final static int BIG_A_RADIUS = 40;
 public final static int SMALL_A_RADIUS = 20;
-public final static int NUM_ASTEROIDS = 10;
+public final static int NUM_ASTEROIDS = 5;
 public final static int NUM_STARS = (int)(Math.random()*300) + 300;
+public final static int NUM_ENEMIES = 3;
 public final static int MAX_NUM_BULLETS = 50;
 public final static int MAX_BULLET_LIFE = 200;
 
@@ -31,15 +32,15 @@ public void setup() {
 	size(1000, 800);
 	background(0);
 
-	//making instances of stars and asteroids
+	//making instances of stars, asteroids, and enemies
 	for(int i = 0; i < NUM_STARS; i++) 
 		starField.add(new Stars());
 
 	for(int i = 0; i < NUM_ASTEROIDS; i++) 
 		rocks.add(new Asteroid());
 
-	//make new enemy
-	enemies.add(new EnemyShip());
+	for(int i = 0; i < NUM_ENEMIES; i++)
+		enemies.add(new EnemyShip());
 
 }
 
@@ -160,7 +161,7 @@ public void asteroidEssentials(ArrayList <Asteroid> asteroids, int radius, Strin
 		asteroids.get(i).move();
 		asteroids.get(i).show();
 
-		//remove asteroid if it hits ship
+		//remove asteroid if it hits player's ship
 		if(asteroids.get(i).distFromFloater(playerShip) <= radius) {
 
 			//split asteroid into 4 if it is big
@@ -174,6 +175,27 @@ public void asteroidEssentials(ArrayList <Asteroid> asteroids, int radius, Strin
 			asteroids.remove(i);
 			i--;
 			break;
+
+		}
+
+		//remove asteroid if it hits enemy ship
+		for(int n = 0; n < enemies.size(); n++) {
+
+			if(asteroids.get(i).distFromFloater(enemies.get(n)) <= radius) {
+
+				//split asteroid into 4 if it is big
+				if(description.equals("big")) {
+
+					for(int j = 0; j < 4; j++)
+							smallRocks.add(new SmallAsteroid(rocks.get(i)));
+
+				}
+
+				asteroids.remove(i);
+				i--;
+				break;
+
+			}
 
 		}
 
