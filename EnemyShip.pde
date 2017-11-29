@@ -44,30 +44,8 @@ class EnemyShip extends Spaceship {
 	    accelerate(.1);
 	    accelerating = true;
 
-	    //Limit velocity
-	    if(myDirectionX > MAX_VELOCITY) 
-	    	myDirectionX = MAX_VELOCITY;
-	    if(myDirectionX < -(MAX_VELOCITY)) 
-	    	myDirectionX = -(MAX_VELOCITY);
-	    if(myDirectionY > MAX_VELOCITY) 
-	    	myDirectionY = MAX_VELOCITY;
-	    if(myDirectionY < -(MAX_VELOCITY)) 
-	    	myDirectionY = -(MAX_VELOCITY);
-	    
-	    //change the x and y coordinates by myDirectionX and myDirectionY       
-	    myCenterX += myDirectionX;    
-	    myCenterY += myDirectionY;     
-
-	    //wrap around screen    
-	    if(myCenterX > width)    
-	    	myCenterX = 0;    
-	    else if (myCenterX < 0)   
-	    	myCenterX = width;    
-
-	    if(myCenterY >height)
-	    	myCenterY = 0;   
-	    else if (myCenterY < 0) 
-	    	myCenterY = height; 
+	    //calling Spaceship's move function
+		super.move();
 
     } 
 }

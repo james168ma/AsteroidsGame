@@ -6,7 +6,7 @@ public final static int SMALL_A_RADIUS = 20;
 public final static int NUM_ASTEROIDS = 5;
 public final static int NUM_STARS = (int)(Math.random()*300) + 300;
 public final static int NUM_ENEMIES = 3;
-public final static int MAX_NUM_BULLETS = 50;
+public final static int MAX_NUM_BULLETS = 10;
 public final static int MAX_BULLET_LIFE = 200;
 
 //Making new arrays and instances of objects
@@ -173,7 +173,6 @@ public void asteroidEssentials(ArrayList <Asteroid> asteroids, int radius, Strin
 			}
 
 			asteroids.remove(i);
-			i--;
 			break;
 
 		}
@@ -192,7 +191,6 @@ public void asteroidEssentials(ArrayList <Asteroid> asteroids, int radius, Strin
 				}
 
 				asteroids.remove(i);
-				i--;
 				break;
 
 			}
@@ -212,10 +210,8 @@ public void asteroidEssentials(ArrayList <Asteroid> asteroids, int radius, Strin
 
 				}
 
-				asteroids.remove(i);
-				i--;
 				bullets.remove(nI);
-				nI--;
+				asteroids.remove(i);
 				break;
 
 			}
