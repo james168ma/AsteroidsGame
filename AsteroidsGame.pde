@@ -6,16 +6,8 @@ public final static int SMALL_A_RADIUS = 20;
 public final static int NUM_ASTEROIDS = 5;
 public final static int NUM_STARS = (int)(Math.random()*300) + 300;
 public final static int NUM_ENEMIES = 3;
-public final static int MAX_NUM_BULLETS = 10;
+public final static int MAX_NUM_BULLETS = 50;
 public final static int MAX_BULLET_LIFE = 200;
-
-//Making new arrays and instances of objects
-private Spaceship playerShip = new Spaceship(500, 400);
-private ArrayList <EnemyShip> enemies = new ArrayList <EnemyShip>();
-private ArrayList <Stars> starField = new ArrayList <Stars>();
-private ArrayList <Asteroid> rocks = new ArrayList <Asteroid>();
-private ArrayList <Asteroid> smallRocks = new ArrayList <Asteroid>();
-private ArrayList <Bullet> bullets = new ArrayList <Bullet>();
 
 //Key control variables
 private boolean keyWPressed = false;
@@ -24,6 +16,14 @@ private boolean keySPressed = false;
 private boolean keyDPressed = false;
 private boolean keyHPressed = false;
 private boolean spacePressed = false;
+
+//Making new arrays and instances of objects
+private Spaceship playerShip = new Spaceship(500, 400);
+private ArrayList <EnemyShip> enemies = new ArrayList <EnemyShip>();
+private ArrayList <Stars> starField = new ArrayList <Stars>();
+private ArrayList <Asteroid> rocks = new ArrayList <Asteroid>();
+private ArrayList <Asteroid> smallRocks = new ArrayList <Asteroid>();
+private ArrayList <Bullet> bullets = new ArrayList <Bullet>();
 
 
 public void setup() {
@@ -50,8 +50,8 @@ public void draw() {
 	background(0);
 
 	//show stars
-	for(int i = 0; i < starField.size(); i++)
-		starField.get(i).show();
+	for(Stars star: starField)
+		star.show();
 
 	//do all the asteroid essentials (refer to function below if refresher needed)
 	asteroidEssentials(rocks, BIG_A_RADIUS, "big");
@@ -63,10 +63,10 @@ public void draw() {
   	playerShip.show();
 
   	//show and move enemy ships
-  	for(int i = 0;i < enemies.size(); i++) {
+  	for(EnemyShip enemy: enemies) {
 
-  		enemies.get(i).move(playerShip);
-  		enemies.get(i).show();
+  		enemy.move(playerShip);
+  		enemy.show();
 
   	}
 
@@ -154,21 +154,26 @@ public void controlPlayerShip(Spaceship ship) {
 }
 
 //comprehensive function for asteroids -- basically do all the important stuff for asteroids
+//made separate for loops to prevent index out of bounds exception
 public void asteroidEssentials(ArrayList <Asteroid> asteroids, int radius, String description) {
 
+	for(Asteroid rock : asteroids) {
+
+		rock.move();
+		rock.show();
+
+	}
+
+	//remove asteroid if it hits player's ship
 	for(int i = 0; i < asteroids.size(); i++) {
 
-		asteroids.get(i).move();
-		asteroids.get(i).show();
-
-		//remove asteroid if it hits player's ship
 		if(asteroids.get(i).distFromFloater(playerShip) <= radius) {
 
 			//split asteroid into 4 if it is big
 			if(description.equals("big")) {
 
 				for(int j = 0; j < 4; j++)
-						smallRocks.add(new SmallAsteroid(rocks.get(i)));
+					smallRocks.add(new SmallAsteroid(rocks.get(i)));
 
 			}
 
@@ -177,7 +182,11 @@ public void asteroidEssentials(ArrayList <Asteroid> asteroids, int radius, Strin
 
 		}
 
-		//remove asteroid if it hits enemy ship
+	}
+
+	//remove asteroid if it hits enemy ship
+	for(int i = 0; i < asteroids.size(); i++) {
+
 		for(int n = 0; n < enemies.size(); n++) {
 
 			if(asteroids.get(i).distFromFloater(enemies.get(n)) <= radius) {
@@ -186,7 +195,7 @@ public void asteroidEssentials(ArrayList <Asteroid> asteroids, int radius, Strin
 				if(description.equals("big")) {
 
 					for(int j = 0; j < 4; j++)
-							smallRocks.add(new SmallAsteroid(rocks.get(i)));
+						smallRocks.add(new SmallAsteroid(rocks.get(i)));
 
 				}
 
@@ -197,7 +206,11 @@ public void asteroidEssentials(ArrayList <Asteroid> asteroids, int radius, Strin
 
 		}
 
-		//remove asteroid and bullet from if bullet hits asteroid
+	}
+
+	//remove asteroid and bullet from if bullet hits asteroid
+	for(int i = 0; i < asteroids.size(); i++) {
+
 		for(int nI = 0; nI < bullets.size(); nI++) {
 
 			if(asteroids.get(i).distFromFloater(bullets.get(nI)) <= radius) {

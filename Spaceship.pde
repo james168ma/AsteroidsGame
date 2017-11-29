@@ -27,7 +27,7 @@ class Spaceship extends Floater {
 		myDirectionY = 0;
 		myPointDirection = 0;
 		accelerating = false;
-		MAX_VELOCITY = 10;
+		MAX_VELOCITY = 6;
 
 	}   
 
@@ -49,27 +49,15 @@ class Spaceship extends Floater {
 	    //Limit velocity
 	    if(myDirectionX > MAX_VELOCITY) 
 	    	myDirectionX = MAX_VELOCITY;
-	    if(myDirectionX < -(MAX_VELOCITY)) 
-	    	myDirectionX = -(MAX_VELOCITY);
+	    if(myDirectionX < -MAX_VELOCITY) 
+	    	myDirectionX = -MAX_VELOCITY;
 	    if(myDirectionY > MAX_VELOCITY) 
 	    	myDirectionY = MAX_VELOCITY;
-	    if(myDirectionY < -(MAX_VELOCITY)) 
-	    	myDirectionY = -(MAX_VELOCITY);
-	    
-	    //change the x and y coordinates by myDirectionX and myDirectionY       
-	    myCenterX += myDirectionX;    
-	    myCenterY += myDirectionY;     
+	    if(myDirectionY < -MAX_VELOCITY) 
+	    	myDirectionY = -MAX_VELOCITY;
 
-	    //wrap around screen    
-	    if(myCenterX >width)    
-	    	myCenterX = 0;    
-	    else if (myCenterX<0)   
-	    	myCenterX = width;    
-
-	    if(myCenterY >height)
-	    	myCenterY = 0;   
-	    else if (myCenterY < 0) 
-	    	myCenterY = height; 
+	    //calling Floater class's move function
+	    super.move();
 
     } 
 
