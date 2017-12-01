@@ -10,6 +10,9 @@ public final static int MAX_NUM_PLAYER_BULLETS = 50;
 public final static int MAX_NUM_ENEMY_BULLETS = 50;
 public final static int MAX_BULLET_LIFE = 200;
 
+private int numPlayerBullets = 0;
+private int numEnemyBullets = 0;
+
 //Key control variables
 private boolean keyWPressed = false;
 private boolean keyAPressed = false;
@@ -24,7 +27,8 @@ private ArrayList <EnemyShip> enemies = new ArrayList <EnemyShip>();
 private ArrayList <Stars> starField = new ArrayList <Stars>();
 private ArrayList <Asteroid> rocks = new ArrayList <Asteroid>();
 private ArrayList <Asteroid> smallRocks = new ArrayList <Asteroid>();
-private ArrayList <Bullet> bullets = new ArrayList <Bullet>();
+private ArrayList <Bullet> playerBullets = new ArrayList <Bullet>();
+private ArrayList <Bullet> enemyBullets = new ArrayList <Bullet>();
 
 
 public void setup() {
@@ -62,37 +66,26 @@ public void draw() {
   	controlPlayerShip(playerShip);
 	playerShip.move();
   	playerShip.show();
-  	playerShip.updateHealth(bullets, rocks, smallRocks);
+  	playerShip.updateHealth(enemyBullets, rocks, smallRocks);
+  	
+  	//add new player bullets
+  	if((spacePressed == true) && (playerBullets.size() <= MAX_NUM_PLAYER_BULLETS))
+  		playerBullets.add(new Bullet(playerShip));
 
   	//show and move enemy ships
   	for(EnemyShip enemy: enemies) {
 
   		enemy.move(playerShip);
   		enemy.show();
-  		enemy.shoot(bullets);
-  		enemy.updateHealth(bullets, rocks, smallRocks);
+  		enemy.shoot(enemyBullets);
+  		enemy.updateHealth(playerBullets, rocks, smallRocks);
 
   	}
 
-  	//show, move, and remove bullets
-	for(int i = 0; i < bullets.size(); i++) {
-
-		bullets.get(i).move();
-		bullets.get(i).show();
-
-		//for removing bullets so they don't stay forever
-		bullets.get(i).setBulletLife(bullets.get(i).getBulletLife()+1);
-
-		if(bullets.get(i).getBulletLife() > MAX_BULLET_LIFE) {
-			bullets.remove(i);
-			i--;
-		}
-
-	}
-
-  	//add new player bullets
-  	if((spacePressed == true) && (bullets.size() <= MAX_NUM_PLAYER_BULLETS)) 
-  		bullets.add(new Bullet(playerShip));
+  	//show, move, and remove playerBullets
+  	bulletEssentials(playerBullets);
+	// //show, move, and remove enemyBullets
+	bulletEssentials(enemyBullets);
 
 }
 
@@ -157,6 +150,27 @@ public void controlPlayerShip(Spaceship ship) {
 
 }
 
+//comprehensive function for bullets
+public void bulletEssentials(ArrayList <Bullet> bullets) {
+
+	//show, move, and remove bullets
+	for(int i = 0; i < bullets.size(); i++) {
+
+		bullets.get(i).move();
+		bullets.get(i).show();
+
+		//for removing bullets so they don't stay forever
+		bullets.get(i).setBulletLife(bullets.get(i).getBulletLife()+1);
+
+		if(bullets.get(i).getBulletLife() > MAX_BULLET_LIFE) {
+			bullets.remove(i);
+			i--;
+		}
+
+	}
+
+}
+
 //comprehensive function for asteroids -- basically do all the important stuff for asteroids
 //made separate for loops to prevent index out of bounds exception
 public void asteroidEssentials(ArrayList <Asteroid> asteroids, int radius, String description) {
@@ -212,12 +226,12 @@ public void asteroidEssentials(ArrayList <Asteroid> asteroids, int radius, Strin
 
 	}
 
-	//remove asteroid and bullet from if bullet hits asteroid
+	//remove asteroid and enemybullet from if enemybullet hits asteroid
 	for(int i = 0; i < asteroids.size(); i++) {
 
-		for(int nI = 0; nI < bullets.size(); nI++) {
+		for(int nI = 0; nI < enemyBullets.size(); nI++) {
 
-			if(asteroids.get(i).distFromFloater(bullets.get(nI)) <= radius) {
+			if(asteroids.get(i).distFromFloater(enemyBullets.get(nI)) <= radius) {
 
 				//split asteroid into 4 if it is big
 				if(description.equals("big")) {
@@ -227,7 +241,32 @@ public void asteroidEssentials(ArrayList <Asteroid> asteroids, int radius, Strin
 
 				}
 
-				bullets.remove(nI);
+				enemyBullets.remove(nI);
+				asteroids.remove(i);
+				break;
+
+			}
+
+		}
+
+	}
+
+	//remove asteroid and playerbullet from if playerbullet hits asteroid
+	for(int i = 0; i < asteroids.size(); i++) {
+
+		for(int nI = 0; nI < playerBullets.size(); nI++) {
+
+			if(asteroids.get(i).distFromFloater(playerBullets.get(nI)) <= radius) {
+
+				//split asteroid into 4 if it is big
+				if(description.equals("big")) {
+
+					for(int j = 0; j < 4; j++)
+						smallRocks.add(new SmallAsteroid(rocks.get(i)));
+
+				}
+
+				playerBullets.remove(nI);
 				asteroids.remove(i);
 				break;
 
