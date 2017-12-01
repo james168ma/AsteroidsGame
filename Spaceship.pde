@@ -2,7 +2,7 @@ class Spaceship extends Floater {
 
 	//all new private variables are for making the jet rocket animation
 	protected boolean accelerating;
-	protected int jetCorners, jetColor, MAX_VELOCITY;
+	protected int jetCorners, jetColor, myHealth, COLLISION_RADIUS, MAX_VELOCITY;
 	protected int[] xJetCorners, yJetCorners;
 	
 	public Spaceship(int startX, int startY) {
@@ -26,7 +26,9 @@ class Spaceship extends Floater {
 		myDirectionX = 0;
 		myDirectionY = 0;
 		myPointDirection = 0;
+		myHealth = 100;
 		accelerating = false;
+		COLLISION_RADIUS = 6;
 		MAX_VELOCITY = 6;
 
 	}   
@@ -43,6 +45,7 @@ class Spaceship extends Floater {
     public double getPointDirection() { return myPointDirection; } 
     public void setAccelerating(boolean b) { accelerating = b; }
     public boolean getAccelerating() { return accelerating; }
+
 
     public void move () {
 
@@ -70,17 +73,15 @@ class Spaceship extends Floater {
 	    translate((float)myCenterX, (float)myCenterY);
 
 	    //convert degrees to radians for rotate()     
-	    float dRadians = (float)(myPointDirection*(Math.PI/180));
+	    float dRadians = (float)(myPointDirection * (Math.PI/180));
 	    
 	    //rotate so that the polygon will be drawn in the correct direction
 	    rotate(dRadians);
 	    
 	    //draw the polygon
 	    beginShape();
-	    for (int nI = 0; nI < corners; nI++)
-	    {
-	      vertex(xCorners[nI], yCorners[nI]);
-	    }
+		    for (int nI = 0; nI < corners; nI++)
+		      vertex(xCorners[nI], yCorners[nI]);
 	    endShape(CLOSE);
 
 	    //draw the rockets when accelerating
@@ -90,15 +91,45 @@ class Spaceship extends Floater {
 	    	stroke(jetColor);
 
 	    	beginShape();
-	    	for (int i = 0; i < jetCorners; i++) 
-	    		vertex(xJetCorners[i], yJetCorners[i]);
+		    	for (int i = 0; i < jetCorners; i++) 
+		    		vertex(xJetCorners[i], yJetCorners[i]);
 	    	endShape(CLOSE);
 
 	    }
 
 	    //"unrotate" and "untranslate" in reverse order
-	    rotate(-1*dRadians);
-	    translate(-1*(float)myCenterX, -1*(float)myCenterY);
+	    rotate(-1 * dRadians);
+	    translate(-1 * (float)myCenterX, -1 * (float)myCenterY);
     } 
+
+   	public float distFromFloater(Floater thing) { return dist((float)myCenterX, (float)myCenterY, (float)thing.getX(), (float)thing.getY()); }
+
+
+    //function to check for collisions and update ship health
+    //it really doesn't matter whether you put the small asteroid arrayList first or the big asteroid arrayList first
+    public void updateHealth(ArrayList <Bullet> bullets, ArrayList <Asteroid> rocks, ArrayList <Asteroid> smallRocks) {
+
+    	for(Bullet b : bullets) { //going through bullets ArrayList
+    		if (distFromFloater(b) < COLLISION_RADIUS) {
+    			myHealth--;
+    			System.out.println(myHealth);
+    		}
+    	}
+
+    	for(Asteroid a : rocks) { //going through rocks ArrayList
+    		if (distFromFloater(a) < COLLISION_RADIUS) {
+    			myHealth -= 20;
+    			System.out.println(myHealth);
+    		}
+    	}
+
+    	for(Asteroid a : smallRocks) { //going through smallRocks ArrayList
+    		if (distFromFloater(a) < COLLISION_RADIUS){
+    			myHealth -= 10;
+    			System.out.println(myHealth);
+    		}
+    	}
+
+    }
 
 }

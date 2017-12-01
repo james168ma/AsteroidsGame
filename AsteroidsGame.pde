@@ -6,7 +6,8 @@ public final static int SMALL_A_RADIUS = 20;
 public final static int NUM_ASTEROIDS = 5;
 public final static int NUM_STARS = (int)(Math.random()*300) + 300;
 public final static int NUM_ENEMIES = 3;
-public final static int MAX_NUM_BULLETS = 50;
+public final static int MAX_NUM_PLAYER_BULLETS = 50;
+public final static int MAX_NUM_ENEMY_BULLETS = 50;
 public final static int MAX_BULLET_LIFE = 200;
 
 //Key control variables
@@ -61,12 +62,15 @@ public void draw() {
   	controlPlayerShip(playerShip);
 	playerShip.move();
   	playerShip.show();
+  	playerShip.updateHealth(bullets, rocks, smallRocks);
 
   	//show and move enemy ships
   	for(EnemyShip enemy: enemies) {
 
   		enemy.move(playerShip);
   		enemy.show();
+  		enemy.shoot(bullets);
+  		enemy.updateHealth(bullets, rocks, smallRocks);
 
   	}
 
@@ -86,8 +90,8 @@ public void draw() {
 
 	}
 
-  	//add new bullets
-  	if((spacePressed == true) && (bullets.size() <= MAX_NUM_BULLETS)) 
+  	//add new player bullets
+  	if((spacePressed == true) && (bullets.size() <= MAX_NUM_PLAYER_BULLETS)) 
   		bullets.add(new Bullet(playerShip));
 
 }

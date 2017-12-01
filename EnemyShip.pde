@@ -1,5 +1,7 @@
 class EnemyShip extends Spaceship {
 
+	private int bulletTimer;
+
 	public EnemyShip() {
 		super(200, 200);
 
@@ -23,6 +25,9 @@ class EnemyShip extends Spaceship {
 		myDirectionY = 0;
 		myPointDirection = 0;
 		accelerating = false;
+		myHealth = 100;
+		bulletTimer = 20;
+		COLLISION_RADIUS = 6;
 		MAX_VELOCITY = 4;
 
 	} 
@@ -48,4 +53,18 @@ class EnemyShip extends Spaceship {
 		super.move();
 
     } 
+
+    public void shoot (ArrayList <Bullet> bullets) {
+
+    	if((bulletTimer >= 20) && (bullets.size() <= MAX_NUM_ENEMY_BULLETS)) { 
+
+  			bullets.add(new Bullet(this));
+  			bulletTimer = 0;
+
+  		}
+
+  		bulletTimer++;
+
+    }
+
 }

@@ -39,6 +39,14 @@ class Bullet extends Floater {
 	    stroke(myColor);    
 	    ellipse((float)myCenterX, (float)myCenterY, 2, 2);
 
-    } 
+    }
+
+    public void move () {  //move the bullet in the current direction of travel without wrapping screen    
+
+	    //change the x and y coordinates by myDirectionX and myDirectionY       
+	    myCenterX += myDirectionX;    
+	    myCenterY += myDirectionY;       
+
+  	} 
     
 }

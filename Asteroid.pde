@@ -39,7 +39,7 @@ class Asteroid extends Floater {
 
 	}
 
-	//finds distance from any spaceship
+	//finds distance from any floater
 	public float distFromFloater(Floater thing) { return dist((float)myCenterX, (float)myCenterY, (float)thing.getX(), (float)thing.getY()); }
 
 }
