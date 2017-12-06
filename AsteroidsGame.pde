@@ -10,8 +10,11 @@ public final static int MAX_NUM_PLAYER_BULLETS = 50;
 public final static int MAX_NUM_ENEMY_BULLETS = 50;
 public final static int MAX_BULLET_LIFE = 200;
 
+//miscalaneous variables
 private int numPlayerBullets = 0;
 private int numEnemyBullets = 0;
+private HealthBar playerBar= new HealthBar(1);
+private boolean madeEnemies = false;
 
 //Key control variables
 private boolean keyWPressed = false;
@@ -29,7 +32,7 @@ private ArrayList <Asteroid> rocks = new ArrayList <Asteroid>();
 private ArrayList <Asteroid> smallRocks = new ArrayList <Asteroid>();
 private ArrayList <Bullet> playerBullets = new ArrayList <Bullet>();
 private ArrayList <Bullet> enemyBullets = new ArrayList <Bullet>();
-private ArrayList <HealthBar> bars = new ArrayList <HealthBar>();
+private ArrayList <HealthBar> enemyBars = new ArrayList <HealthBar>();
 
 
 public void setup() {
@@ -44,11 +47,6 @@ public void setup() {
 
 	for(int i = 0; i < NUM_ASTEROIDS; i++) 
 		rocks.add(new Asteroid());
-
-	for(int i = 0; i < NUM_ENEMIES; i++)
-		enemies.add(new EnemyShip());
-
-	bars.add(new HealthBar(1));
 
 }
 
@@ -75,6 +73,18 @@ public void draw() {
   	if((spacePressed == true) && (playerBullets.size() <= MAX_NUM_PLAYER_BULLETS))
   		playerBullets.add(new Bullet(playerShip));
 
+  	//make enemyShips when there are 0 asteroids
+  	if(rocks.size() == 0 && smallRocks.size() == 0 && madeEnemies == false) {
+
+  		for(int i = 0; i < NUM_ENEMIES; i++) {
+			enemies.add(new EnemyShip());
+			enemyBars.add(new HealthBar(1));
+		}
+
+		madeEnemies = true;
+
+  	}
+
   	//show and move enemy ships
   	for(EnemyShip enemy: enemies) {
 
@@ -90,10 +100,15 @@ public void draw() {
 	// //show, move, and remove enemyBullets
 	bulletEssentials(enemyBullets);
 
-	for(HealthBar bar : bars) {
-		bar.move(playerShip.getX(), playerShip.getY());
-		bar.show(playerShip.getHealth());
+	for(HealthBar bar : enemyBars) {
+		for(EnemyShip e : enemies) {
+			bar.move(e.getX(), e.getY());
+			bar.show(e.getHealth());
+		}
 	}
+
+	playerBar.move(playerShip.getX(), playerShip.getY());
+	playerBar.show(playerShip.getHealth());
 
 
 

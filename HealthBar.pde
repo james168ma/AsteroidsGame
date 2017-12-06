@@ -13,7 +13,7 @@ class HealthBar {
 
 	public void move(int x, int y) {
 
-		myX = x;
+		myX = x - 25;
 		myY = y + 20;
 
 	}
@@ -34,7 +34,7 @@ class HealthBar {
 		else if(myHealth < 25)
 			fill(255, 0, 0);
 
-		rect(myX - myHealth/2, myY, (float)mySize * 100 * (float)((float)myHealth/(float)100), mySize * 2);
+		rect(myX, myY, (float)mySize * 50 * (float)((float)myHealth/(float)100), mySize * 2);
 
 	}
 }

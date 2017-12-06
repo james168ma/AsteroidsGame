@@ -28,7 +28,7 @@ class Spaceship extends Floater {
 		myPointDirection = 0;
 		myHealth = 100;
 		accelerating = false;
-		COLLISION_RADIUS = 6;
+		COLLISION_RADIUS = 8;
 		MAX_VELOCITY = 6;
 
 	}   
@@ -118,14 +118,14 @@ class Spaceship extends Floater {
     	}
 
     	for(Asteroid a : rocks) { //going through rocks ArrayList
-    		if (distFromFloater(a) < COLLISION_RADIUS) {
+    		if (distFromFloater(a) <= BIG_A_RADIUS + 1) {
     			myHealth -= 20;
     			System.out.println(myHealth);
     		}
     	}
 
     	for(Asteroid a : smallRocks) { //going through smallRocks ArrayList
-    		if (distFromFloater(a) < COLLISION_RADIUS){
+    		if (distFromFloater(a) <= SMALL_A_RADIUS + 1){
     			myHealth -= 10;
     			System.out.println(myHealth);
     		}

@@ -27,7 +27,7 @@ class EnemyShip extends Spaceship {
 		accelerating = false;
 		myHealth = 100;
 		bulletTimer = 20;
-		COLLISION_RADIUS = 6;
+		COLLISION_RADIUS = 12;
 		MAX_VELOCITY = 4;
 
 	} 
