@@ -19,7 +19,7 @@ class EnemyShip extends Spaceship {
 		jetColor = color(0, 0, 255);
 
 		myColor = color(255, 0, 0);
-		myCenterX = random(0, 1000);
+		myCenterX = 1000;
 		myCenterY = random(0, 800);
 		myDirectionX = 0;
 		myDirectionY = 0;

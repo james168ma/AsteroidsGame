@@ -3,7 +3,7 @@ public final static int SCREEN_SIZE_X = 1000;
 public final static int SCREEN_SIZE_Y = 800;
 public final static int BIG_A_RADIUS = 40;
 public final static int SMALL_A_RADIUS = 20;
-public final static int NUM_ASTEROIDS = 5;
+public final static int NUM_ASTEROIDS = 10;
 public final static int NUM_STARS = (int)(Math.random()*300) + 300;
 public final static int NUM_ENEMIES = 3;
 public final static int MAX_NUM_PLAYER_BULLETS = 50;
@@ -15,6 +15,7 @@ private int numPlayerBullets = 0;
 private int numEnemyBullets = 0;
 private HealthBar playerBar= new HealthBar(1);
 private boolean madeEnemies = false;
+private int gameMode = 0;
 
 //Key control variables
 private boolean keyWPressed = false;
@@ -55,62 +56,97 @@ public void draw() {
 
 	background(0);
 
-	//show stars
-	for(Stars star: starField)
-		star.show();
+	switch (gameMode) {
 
-	//do all the asteroid essentials (refer to function below if refresher needed)
-	asteroidEssentials(rocks, BIG_A_RADIUS, "big");
-	asteroidEssentials(smallRocks, SMALL_A_RADIUS, "small");
+		case 0 :
 
-	//control, move, and show player's ship
-  	controlPlayerShip(playerShip);
-	playerShip.move();
-  	playerShip.show();
-  	playerShip.updateHealth(enemyBullets, rocks, smallRocks);
-  	
-  	//add new player bullets
-  	if((spacePressed == true) && (playerBullets.size() <= MAX_NUM_PLAYER_BULLETS))
-  		playerBullets.add(new Bullet(playerShip));
+			fill(0);
+			stroke(255);
+			rect(435, 350, 122, 60);
 
-  	//make enemyShips when there are 0 asteroids
-  	if(rocks.size() == 0 && smallRocks.size() == 0 && madeEnemies == false) {
+			fill(255);
+			textSize(50);
+			text("PLAY", 435, 400);
+			if(mousePressed == true && mouseX <= 435 + 122 && mouseX >= 435 && mouseY <= 350 + 60 && mouseY >= 350)
+				gameMode = 1;
 
-  		for(int i = 0; i < NUM_ENEMIES; i++) {
-			enemies.add(new EnemyShip());
-			enemyBars.add(new HealthBar(1));
-		}
+			break;
 
-		madeEnemies = true;
+		case 1 : 
 
-  	}
+			//show stars
+			for(Stars star: starField)
+				star.show();
 
-  	//show and move enemy ships
-  	for(EnemyShip enemy: enemies) {
+			//do all the asteroid essentials (refer to function below if refresher needed)
+			asteroidEssentials(rocks, BIG_A_RADIUS, "big");
+			asteroidEssentials(smallRocks, SMALL_A_RADIUS, "small");
 
-  		enemy.move(playerShip);
-  		enemy.show();
-  		enemy.shoot(enemyBullets);
-  		enemy.updateHealth(playerBullets, rocks, smallRocks);
+			//control, move, and show player's ship
+		  	controlPlayerShip(playerShip);
+			playerShip.move();
+		  	playerShip.show();
+		  	playerShip.updateHealth(enemyBullets, rocks, smallRocks);
+		  	if(playerShip.getHealth() <= 0)
+		  		gameMode = 2;
+		  	
+		  	//add new player bullets
+		  	if((spacePressed == true) && (playerBullets.size() <= MAX_NUM_PLAYER_BULLETS))
+		  		playerBullets.add(new Bullet(playerShip));
 
-  	}
+		  	//make enemyShips when there are 0 asteroids
+		  	if(rocks.size() == 0 && smallRocks.size() == 0 && madeEnemies == false) {
 
-  	//show, move, and remove playerBullets
-  	bulletEssentials(playerBullets);
-	// //show, move, and remove enemyBullets
-	bulletEssentials(enemyBullets);
+		  		for(int i = 0; i < NUM_ENEMIES; i++) {
+					enemies.add(new EnemyShip());
+					enemyBars.add(new HealthBar(1));
+				}
 
-	for(HealthBar bar : enemyBars) {
-		for(EnemyShip e : enemies) {
-			bar.move(e.getX(), e.getY());
-			bar.show(e.getHealth());
-		}
+				madeEnemies = true;
+
+		  	}
+
+		  	//update enemy ships
+		  	for(int i = 0; i < enemies.size(); i++) {
+
+				enemies.get(i).move(playerShip);
+		  		enemies.get(i).show();
+		  		enemies.get(i).shoot(enemyBullets);
+		  		enemies.get(i).updateHealth(playerBullets, rocks, smallRocks);
+
+		  		if(enemies.get(i).getHealth() <= 0) {
+		  			enemies.remove(i);
+		  			i--;
+		  		}
+
+			}
+
+		  	//show, move, and remove playerBullets
+		  	bulletEssentials(playerBullets);
+			// //show, move, and remove enemyBullets
+			bulletEssentials(enemyBullets);
+
+			for(HealthBar bar : enemyBars) {
+				for(EnemyShip e : enemies) {
+					bar.move(e.getX(), e.getY());
+					bar.show(e.getHealth());
+				}
+			}
+
+			playerBar.move(playerShip.getX(), playerShip.getY());
+			playerBar.show(playerShip.getHealth());
+
+			break;
+
+		case 2 :
+
+			fill(255);
+			textSize(50);
+			text("GAME OVER", 350, 400);
+
+			break;
+		
 	}
-
-	playerBar.move(playerShip.getX(), playerShip.getY());
-	playerBar.show(playerShip.getHealth());
-
-
 
 }
 
