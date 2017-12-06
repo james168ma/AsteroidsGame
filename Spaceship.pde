@@ -45,6 +45,7 @@ class Spaceship extends Floater {
     public double getPointDirection() { return myPointDirection; } 
     public void setAccelerating(boolean b) { accelerating = b; }
     public boolean getAccelerating() { return accelerating; }
+    public int getHealth() { return myHealth; }
 
 
     public void move () {

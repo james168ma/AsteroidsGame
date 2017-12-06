@@ -29,6 +29,7 @@ private ArrayList <Asteroid> rocks = new ArrayList <Asteroid>();
 private ArrayList <Asteroid> smallRocks = new ArrayList <Asteroid>();
 private ArrayList <Bullet> playerBullets = new ArrayList <Bullet>();
 private ArrayList <Bullet> enemyBullets = new ArrayList <Bullet>();
+private ArrayList <HealthBar> bars = new ArrayList <HealthBar>();
 
 
 public void setup() {
@@ -46,6 +47,8 @@ public void setup() {
 
 	for(int i = 0; i < NUM_ENEMIES; i++)
 		enemies.add(new EnemyShip());
+
+	bars.add(new HealthBar(1));
 
 }
 
@@ -86,6 +89,13 @@ public void draw() {
   	bulletEssentials(playerBullets);
 	// //show, move, and remove enemyBullets
 	bulletEssentials(enemyBullets);
+
+	for(HealthBar bar : bars) {
+		bar.move(playerShip.getX(), playerShip.getY());
+		bar.show(playerShip.getHealth());
+	}
+
+
 
 }
 
