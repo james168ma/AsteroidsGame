@@ -13,8 +13,7 @@ public final static int MAX_BULLET_LIFE = 200;
 //miscalaneous variables
 private int numPlayerBullets = 0;
 private int numEnemyBullets = 0;
-private boolean madeEnemies = false;
-private String gameMode = "asteroids";
+private int gameMode = 0;
 private int screenMode = 0;
 
 //Key control variables
@@ -67,7 +66,7 @@ public void draw() {
 			textSize(50);
 			text("PLAY", 435, 400);
 			if(mousePressed == true && mouseX <= 435 + 122 && mouseX >= 435 && mouseY <= 350 + 60 && mouseY >= 350)
-				gameMode = 1;
+				screenMode = 1;
 
 		break;
 
@@ -83,7 +82,7 @@ public void draw() {
 		  	playerShip.show();
 		  	playerShip.updateHealth(enemyBullets, rocks, smallRocks);
 		  	if(playerShip.getHealth() <= 0)
-		  		gameMode = 2;
+		  		screenMode = 2;
 		  	
 		  	//add new player bullets
 		  	if((spacePressed == true) && (playerBullets.size() <= MAX_NUM_PLAYER_BULLETS))
@@ -92,50 +91,57 @@ public void draw() {
 		  	//show, move, and remove playerBullets
 		  	bulletEssentials(playerBullets);
 
+		  	//update enemy ships
+			for(int i = 0; i < enemies.size(); i++) {
+
+				enemies.get(i).move(playerShip);
+		  		enemies.get(i).show();
+		  		enemies.get(i).shoot(enemyBullets);
+		  		enemies.get(i).updateHealth(playerBullets, rocks, smallRocks);
+
+		  		if(enemies.get(i).getHealth() <= 0) {
+		  			enemies.remove(i);
+		  			i--;
+		  		}
+
+			}
+
+			//show, move, and remove enemyBullets
+			bulletEssentials(enemyBullets);
+
 			switch (gameMode) {
 
-				case "asteroids" :
+				case 0 :
 
 					//do all the asteroid essentials (refer to function below if refresher needed)
 					asteroidEssentials(rocks, BIG_A_RADIUS, "big");
 					asteroidEssentials(smallRocks, SMALL_A_RADIUS, "small");
 
 			  		//make enemyShips when there are 0 asteroids
-			  		if(rocks.size() == 0 && smallRocks.size() == 0 && madeEnemies == false) {
+			  		if(rocks.size() == 0 && smallRocks.size() == 0) {
 
 				  		for(int i = 0; i < NUM_ENEMIES; i++) {
 							enemies.add(new EnemyShip());
 						}
 
-						enemies.add(new Boss());
-
-						gameMode = "small ships";
+						gameMode = 1;
 
 				  	}
 
 			  	break;
 
-			  	case "small ships" :
+			  	case 1 :
 
-				  	//update enemy ships
-				  	for(int i = 0; i < enemies.size(); i++) {
-
-						enemies.get(i).move(playerShip);
-				  		enemies.get(i).show();
-				  		enemies.get(i).shoot(enemyBullets);
-				  		enemies.get(i).updateHealth(playerBullets, rocks, smallRocks);
-
-				  		if(enemies.get(i).getHealth() <= 0) {
-				  			enemies.remove(i);
-				  			i--;
-				  		}
-
-					}
-
-					// //show, move, and remove enemyBullets
-					bulletEssentials(enemyBullets);
-
+				  	if(enemies.size() <= 0) {
+				  		enemies.add(new Boss());
+				  		gameMode = 2;
+				  	}
+				  	
 				break;
+
+				case 2 :
+				break;
+			}
 
 		break;
 
