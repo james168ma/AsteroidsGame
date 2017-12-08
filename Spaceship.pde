@@ -107,7 +107,7 @@ class Spaceship extends Floater {
 	    rotate(-1 * dRadians);
 	    translate(-1 * (float)myCenterX, -1 * (float)myCenterY);
 
-	    myBar.show(myHealth);
+	    myBar.show(myHealth, 100);
     } 
 
    	public float distFromFloater(Floater thing) { return dist((float)myCenterX, (float)myCenterY, (float)thing.getX(), (float)thing.getY()); }

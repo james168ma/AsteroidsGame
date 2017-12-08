@@ -19,7 +19,7 @@ class HealthBar {
 
 	}
 
-	public void show(int health) {
+	public void show(int health, int fullHealth) {
 
 		noStroke();
 
@@ -27,12 +27,12 @@ class HealthBar {
 
 		fill(0, 255, 0);
 
-		if((myHealth < 50) && (myHealth >= 25))
+		if((myHealth < fullHealth/2) && (myHealth >= fullHealth/4))
 			fill(255, 255, 0);
-		else if(myHealth < 25)
+		else if(myHealth < fullHealth/4)
 			fill(255, 0, 0);
 
-		rect(myX, myY, (float)mySize * 50 * (float)((float)myHealth/(float)100), mySize * 2);
+		rect(myX, myY, 50 * (float)((float)myHealth/(float)100), mySize * 2);
 
 	}
 }
