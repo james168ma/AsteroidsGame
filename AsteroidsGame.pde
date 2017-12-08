@@ -13,7 +13,6 @@ public final static int MAX_BULLET_LIFE = 200;
 //miscalaneous variables
 private int numPlayerBullets = 0;
 private int numEnemyBullets = 0;
-private HealthBar playerBar= new HealthBar(1);
 private boolean madeEnemies = false;
 private int gameMode = 0;
 
@@ -33,7 +32,6 @@ private ArrayList <Asteroid> rocks = new ArrayList <Asteroid>();
 private ArrayList <Asteroid> smallRocks = new ArrayList <Asteroid>();
 private ArrayList <Bullet> playerBullets = new ArrayList <Bullet>();
 private ArrayList <Bullet> enemyBullets = new ArrayList <Bullet>();
-private ArrayList <HealthBar> enemyBars = new ArrayList <HealthBar>();
 
 
 public void setup() {
@@ -92,15 +90,16 @@ public void draw() {
 		  	
 		  	//add new player bullets
 		  	if((spacePressed == true) && (playerBullets.size() <= MAX_NUM_PLAYER_BULLETS))
-		  		playerBullets.add(new Bullet(playerShip));
+		  		playerBullets.add(new Bullet(playerShip, 1));
 
 		  	//make enemyShips when there are 0 asteroids
 		  	if(rocks.size() == 0 && smallRocks.size() == 0 && madeEnemies == false) {
 
 		  		for(int i = 0; i < NUM_ENEMIES; i++) {
 					enemies.add(new EnemyShip());
-					enemyBars.add(new HealthBar(1));
 				}
+
+				enemies.add(new Boss());
 
 				madeEnemies = true;
 
@@ -125,16 +124,6 @@ public void draw() {
 		  	bulletEssentials(playerBullets);
 			// //show, move, and remove enemyBullets
 			bulletEssentials(enemyBullets);
-
-			for(HealthBar bar : enemyBars) {
-				for(EnemyShip e : enemies) {
-					bar.move(e.getX(), e.getY());
-					bar.show(e.getHealth());
-				}
-			}
-
-			playerBar.move(playerShip.getX(), playerShip.getY());
-			playerBar.show(playerShip.getHealth());
 
 			break;
 

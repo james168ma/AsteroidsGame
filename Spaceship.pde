@@ -4,6 +4,7 @@ class Spaceship extends Floater {
 	protected boolean accelerating;
 	protected int jetCorners, jetColor, myHealth, COLLISION_RADIUS, MAX_VELOCITY;
 	protected int[] xJetCorners, yJetCorners;
+	protected HealthBar myBar;
 	
 	public Spaceship(int startX, int startY) {
 
@@ -30,6 +31,8 @@ class Spaceship extends Floater {
 		accelerating = false;
 		COLLISION_RADIUS = 8;
 		MAX_VELOCITY = 6;
+
+		myBar = new HealthBar(1, 25);
 
 	}   
 
@@ -62,6 +65,8 @@ class Spaceship extends Floater {
 
 	    //calling Floater class's move function
 	    super.move();
+
+	    myBar.move((int)myCenterX, (int)myCenterY);
 
     } 
 
@@ -101,6 +106,8 @@ class Spaceship extends Floater {
 	    //"unrotate" and "untranslate" in reverse order
 	    rotate(-1 * dRadians);
 	    translate(-1 * (float)myCenterX, -1 * (float)myCenterY);
+
+	    myBar.show(myHealth);
     } 
 
    	public float distFromFloater(Floater thing) { return dist((float)myCenterX, (float)myCenterY, (float)thing.getX(), (float)thing.getY()); }
@@ -111,24 +118,18 @@ class Spaceship extends Floater {
     public void updateHealth(ArrayList <Bullet> bullets, ArrayList <Asteroid> rocks, ArrayList <Asteroid> smallRocks) {
 
     	for(Bullet b : bullets) { //going through bullets ArrayList
-    		if (distFromFloater(b) < COLLISION_RADIUS) {
+    		if (distFromFloater(b) < COLLISION_RADIUS)
     			myHealth--;
-    			System.out.println(myHealth);
-    		}
     	}
 
     	for(Asteroid a : rocks) { //going through rocks ArrayList
-    		if (distFromFloater(a) <= BIG_A_RADIUS + 1) {
+    		if (distFromFloater(a) <= BIG_A_RADIUS + 1)
     			myHealth -= 20;
-    			System.out.println(myHealth);
-    		}
     	}
 
     	for(Asteroid a : smallRocks) { //going through smallRocks ArrayList
-    		if (distFromFloater(a) <= SMALL_A_RADIUS + 1){
+    		if (distFromFloater(a) <= SMALL_A_RADIUS + 1)
     			myHealth -= 10;
-    			System.out.println(myHealth);
-    		}
     	}
 
     }

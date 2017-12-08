@@ -1,8 +1,8 @@
 class Bullet extends Floater {
 
-	private int bulletLife;
+	private int bulletLife, mySize;
 
-	public Bullet(Spaceship theShip) {
+	public Bullet(Spaceship theShip, int s) {
 
 		corners = 4;
 		int[] x = {1, -1, -1, 1};
@@ -17,6 +17,7 @@ class Bullet extends Floater {
 		myDirectionX = 5 * Math.cos(dRadians) + theShip.getDirectionX();
 		myDirectionY = 5 * Math.sin(dRadians) + theShip.getDirectionY();
 		bulletLife = 0;
+		mySize = s;
 		
 	}
 
@@ -37,7 +38,7 @@ class Bullet extends Floater {
               
 	    fill(myColor);   
 	    stroke(myColor);    
-	    ellipse((float)myCenterX, (float)myCenterY, 2, 2);
+	    ellipse((float)myCenterX, (float)myCenterY, 2*mySize, 2*mySize);
 
     }
 

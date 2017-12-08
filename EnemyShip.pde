@@ -1,31 +1,15 @@
 class EnemyShip extends Spaceship {
 
-	private int bulletTimer;
+	protected int bulletTimer;
 
 	public EnemyShip() {
+
 		super(200, 200);
 
-		corners = 8;
-		int[] x = {12, 0, -6, -2, -12, -2, -6, 0};
-		int[] y = {0, -9, -5, -3, 0, 3, 5, 9};
-		xCorners = x;
-		yCorners = y;
-
-		jetCorners = 6;
-		int[] jetX = {-12, -2, -6, -17, -6, -2};
-		int[] jetY = {0, -3, -5, 0, 5, 3};
-		xJetCorners = jetX;
-		yJetCorners = jetY;
 		jetColor = color(0, 0, 255);
-
 		myColor = color(255, 0, 0);
 		myCenterX = 1000;
 		myCenterY = random(0, 800);
-		myDirectionX = 0;
-		myDirectionY = 0;
-		myPointDirection = 0;
-		accelerating = false;
-		myHealth = 100;
 		bulletTimer = 20;
 		COLLISION_RADIUS = 12;
 		MAX_VELOCITY = 4;
@@ -46,7 +30,7 @@ class EnemyShip extends Spaceship {
 
 	    myPointDirection = angle;  
 
-	    accelerate(.1);
+	    accelerate(.05);
 	    accelerating = true;
 
 	    //calling Spaceship's move function
@@ -58,7 +42,7 @@ class EnemyShip extends Spaceship {
 
     	if((bulletTimer >= 20) && (bullets.size() <= MAX_NUM_ENEMY_BULLETS)) { 
 
-  			bullets.add(new Bullet(this));
+  			bullets.add(new Bullet(this, 1));
   			bulletTimer = 0;
 
   		}
