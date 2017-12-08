@@ -16,12 +16,12 @@ class Boss extends EnemyShip {
 		xJetCorners = jetX;
 		yJetCorners = jetY;
 
-		myHealth = 1000;
+		myHealth = 250;
 		bulletTimer = 5;
 		COLLISION_RADIUS = 12*3;
 		MAX_VELOCITY = 2;
 
-		myBar = new HealthBar(3, 250);
+		myBar = new HealthBar(3, 60, 40);
 
 	}
 
@@ -62,7 +62,7 @@ class Boss extends EnemyShip {
 	    rotate(-1 * dRadians);
 	    translate(-1 * (float)myCenterX, -1 * (float)myCenterY);
 
-	    myBar.show(myHealth, 1000);
+	    myBar.show(myHealth, 250);
     } 
 
 	public void shoot (ArrayList <Bullet> bullets) {
@@ -75,6 +75,17 @@ class Boss extends EnemyShip {
   		}
 
   		bulletTimer++;
+
+    }
+
+    public void updateHealth(ArrayList <Bullet> bullets, ArrayList <Asteroid> rocks, ArrayList <Asteroid> smallRocks) {
+
+    	super.updateHealth(bullets, rocks, smallRocks);
+
+    	for(Bullet b : bullets) { //going through bullets ArrayList
+    		if (distFromFloater(b) < COLLISION_RADIUS)
+    			myHealth += .95;
+    	}
 
     }
 

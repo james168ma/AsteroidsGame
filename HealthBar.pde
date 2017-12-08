@@ -1,25 +1,27 @@
 class HealthBar {
 
-	private int myX, myY, mySize, myHealth, myOffset;
+	private int myX, myY, mySize, myOffsetX, myOffsetY;
+	private float myHealth;
 
-	public HealthBar(int size, int offSet) {
+	public HealthBar(int size, int offSetX, int offSetY) {
 
 		myX = 0;
 		myY = 0;
 		mySize = size;
 		myHealth = 100;
-		myOffset = offSet;
+		myOffsetX = offSetX;
+		myOffsetY = offSetY;
 
 	}
 
 	public void move(int x, int y) {
 
-		myX = x - myOffset;
-		myY = y + 20;
+		myX = x - myOffsetX;
+		myY = y + myOffsetY;
 
 	}
 
-	public void show(int health, int fullHealth) {
+	public void show(float health, int fullHealth) {
 
 		noStroke();
 

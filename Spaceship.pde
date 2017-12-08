@@ -2,9 +2,10 @@ class Spaceship extends Floater {
 
 	//all new private variables are for making the jet rocket animation
 	protected boolean accelerating;
-	protected int jetCorners, jetColor, myHealth, COLLISION_RADIUS, MAX_VELOCITY;
+	protected int jetCorners, jetColor, COLLISION_RADIUS, MAX_VELOCITY;
 	protected int[] xJetCorners, yJetCorners;
 	protected HealthBar myBar;
+	protected float myHealth;
 	
 	public Spaceship(int startX, int startY) {
 
@@ -32,7 +33,7 @@ class Spaceship extends Floater {
 		COLLISION_RADIUS = 8;
 		MAX_VELOCITY = 6;
 
-		myBar = new HealthBar(1, 25);
+		myBar = new HealthBar(1, 25, 20);
 
 	}   
 
@@ -48,7 +49,7 @@ class Spaceship extends Floater {
     public double getPointDirection() { return myPointDirection; } 
     public void setAccelerating(boolean b) { accelerating = b; }
     public boolean getAccelerating() { return accelerating; }
-    public int getHealth() { return myHealth; }
+    public float getHealth() { return myHealth; }
 
 
     public void move () {

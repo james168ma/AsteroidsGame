@@ -3,9 +3,9 @@ public final static int SCREEN_SIZE_X = 1000;
 public final static int SCREEN_SIZE_Y = 800;
 public final static int BIG_A_RADIUS = 40;
 public final static int SMALL_A_RADIUS = 20;
-public final static int NUM_ASTEROIDS = 0;
+public final static int NUM_ASTEROIDS = 30;
 public final static int NUM_STARS = (int)(Math.random()*300) + 300;
-public final static int NUM_ENEMIES = 3;
+public final static int NUM_ENEMIES = 5;
 public final static int MAX_NUM_PLAYER_BULLETS = 50;
 public final static int MAX_NUM_ENEMY_BULLETS = 50;
 public final static int MAX_BULLET_LIFE = 200;
@@ -14,7 +14,8 @@ public final static int MAX_BULLET_LIFE = 200;
 private int numPlayerBullets = 0;
 private int numEnemyBullets = 0;
 private boolean madeEnemies = false;
-private int gameMode = 0;
+private String gameMode = "asteroids";
+private int screenMode = 0;
 
 //Key control variables
 private boolean keyWPressed = false;
@@ -54,7 +55,7 @@ public void draw() {
 
 	background(0);
 
-	switch (gameMode) {
+	switch (screenMode) {
 
 		case 0 :
 
@@ -68,17 +69,13 @@ public void draw() {
 			if(mousePressed == true && mouseX <= 435 + 122 && mouseX >= 435 && mouseY <= 350 + 60 && mouseY >= 350)
 				gameMode = 1;
 
-			break;
+		break;
 
 		case 1 : 
 
 			//show stars
 			for(Stars star: starField)
 				star.show();
-
-			//do all the asteroid essentials (refer to function below if refresher needed)
-			asteroidEssentials(rocks, BIG_A_RADIUS, "big");
-			asteroidEssentials(smallRocks, SMALL_A_RADIUS, "small");
 
 			//control, move, and show player's ship
 		  	controlPlayerShip(playerShip);
@@ -92,40 +89,55 @@ public void draw() {
 		  	if((spacePressed == true) && (playerBullets.size() <= MAX_NUM_PLAYER_BULLETS))
 		  		playerBullets.add(new Bullet(playerShip, 1));
 
-		  	//make enemyShips when there are 0 asteroids
-		  	if(rocks.size() == 0 && smallRocks.size() == 0 && madeEnemies == false) {
-
-		  		for(int i = 0; i < NUM_ENEMIES; i++) {
-					enemies.add(new EnemyShip());
-				}
-
-				enemies.add(new Boss());
-
-				madeEnemies = true;
-
-		  	}
-
-		  	//update enemy ships
-		  	for(int i = 0; i < enemies.size(); i++) {
-
-				enemies.get(i).move(playerShip);
-		  		enemies.get(i).show();
-		  		enemies.get(i).shoot(enemyBullets);
-		  		enemies.get(i).updateHealth(playerBullets, rocks, smallRocks);
-
-		  		if(enemies.get(i).getHealth() <= 0) {
-		  			enemies.remove(i);
-		  			i--;
-		  		}
-
-			}
-
 		  	//show, move, and remove playerBullets
 		  	bulletEssentials(playerBullets);
-			// //show, move, and remove enemyBullets
-			bulletEssentials(enemyBullets);
 
-			break;
+			switch (gameMode) {
+
+				case "asteroids" :
+
+					//do all the asteroid essentials (refer to function below if refresher needed)
+					asteroidEssentials(rocks, BIG_A_RADIUS, "big");
+					asteroidEssentials(smallRocks, SMALL_A_RADIUS, "small");
+
+			  		//make enemyShips when there are 0 asteroids
+			  		if(rocks.size() == 0 && smallRocks.size() == 0 && madeEnemies == false) {
+
+				  		for(int i = 0; i < NUM_ENEMIES; i++) {
+							enemies.add(new EnemyShip());
+						}
+
+						enemies.add(new Boss());
+
+						gameMode = "small ships";
+
+				  	}
+
+			  	break;
+
+			  	case "small ships" :
+
+				  	//update enemy ships
+				  	for(int i = 0; i < enemies.size(); i++) {
+
+						enemies.get(i).move(playerShip);
+				  		enemies.get(i).show();
+				  		enemies.get(i).shoot(enemyBullets);
+				  		enemies.get(i).updateHealth(playerBullets, rocks, smallRocks);
+
+				  		if(enemies.get(i).getHealth() <= 0) {
+				  			enemies.remove(i);
+				  			i--;
+				  		}
+
+					}
+
+					// //show, move, and remove enemyBullets
+					bulletEssentials(enemyBullets);
+
+				break;
+
+		break;
 
 		case 2 :
 
@@ -133,7 +145,7 @@ public void draw() {
 			textSize(50);
 			text("GAME OVER", 350, 400);
 
-			break;
+		break;
 		
 	}
 
