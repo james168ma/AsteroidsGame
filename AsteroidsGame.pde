@@ -3,9 +3,9 @@ public final static int SCREEN_SIZE_X = 1000;
 public final static int SCREEN_SIZE_Y = 800;
 public final static int BIG_A_RADIUS = 40;
 public final static int SMALL_A_RADIUS = 20;
-public final static int NUM_ASTEROIDS = 30;
+public final static int NUM_ASTEROIDS = 0;
 public final static int NUM_STARS = (int)(Math.random()*300) + 300;
-public final static int NUM_ENEMIES = 5;
+public final static int NUM_ENEMIES = 0;
 public final static int MAX_NUM_PLAYER_BULLETS = 50;
 public final static int MAX_NUM_ENEMY_BULLETS = 50;
 public final static int MAX_BULLET_LIFE = 200;
@@ -86,7 +86,7 @@ public void draw() {
 		  	
 		  	//add new player bullets
 		  	if((spacePressed == true) && (playerBullets.size() <= MAX_NUM_PLAYER_BULLETS))
-		  		playerBullets.add(new Bullet(playerShip, 1));
+		  		playerBullets.add(new Bullet(playerShip, 1, 0));
 
 		  	//show, move, and remove playerBullets
 		  	bulletEssentials(playerBullets);
@@ -140,6 +140,11 @@ public void draw() {
 				break;
 
 				case 2 :
+
+					if(enemies.size() <= 0) {
+				  		screenMode = 3;
+				  	}
+
 				break;
 			}
 
@@ -150,6 +155,14 @@ public void draw() {
 			fill(255);
 			textSize(50);
 			text("GAME OVER", 350, 400);
+
+		break;
+
+		case 3 :
+
+			fill(255);
+			textSize(50);
+			text("YOU WIN!!", 370, 400);
 
 		break;
 		

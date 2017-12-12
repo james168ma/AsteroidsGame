@@ -42,7 +42,7 @@ class EnemyShip extends Spaceship {
 
     	if((bulletTimer >= 20) && (bullets.size() <= MAX_NUM_ENEMY_BULLETS)) { 
 
-  			bullets.add(new Bullet(this, 1));
+  			bullets.add(new Bullet(this, 1, 0));
   			bulletTimer = 0;
 
   		}

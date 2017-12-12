@@ -67,9 +67,11 @@ class Boss extends EnemyShip {
 
 	public void shoot (ArrayList <Bullet> bullets) {
 
-    	if((bulletTimer >= 2) && (bullets.size() <= MAX_NUM_ENEMY_BULLETS)) { 
+    	if((bulletTimer >= 2) && (bullets.size() <= MAX_NUM_ENEMY_BULLETS*3)) { 
 
-  			bullets.add(new Bullet(this, 3));
+  			bullets.add(new Bullet(this, 3, 0));
+  			bullets.add(new Bullet(this, 3, 30));
+  			bullets.add(new Bullet(this, 3, -30));
   			bulletTimer = 0;
 
   		}
@@ -84,7 +86,7 @@ class Boss extends EnemyShip {
 
     	for(Bullet b : bullets) { //going through bullets ArrayList
     		if (distFromFloater(b) < COLLISION_RADIUS)
-    			myHealth += .95;
+    			myHealth += .8;
     	}
 
     }
