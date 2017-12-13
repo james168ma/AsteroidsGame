@@ -3,9 +3,9 @@ public final static int SCREEN_SIZE_X = 1000;
 public final static int SCREEN_SIZE_Y = 800;
 public final static int BIG_A_RADIUS = 40;
 public final static int SMALL_A_RADIUS = 20;
-public final static int NUM_ASTEROIDS = 0;
+public final static int NUM_ASTEROIDS = 50;
 public final static int NUM_STARS = (int)(Math.random()*300) + 300;
-public final static int NUM_ENEMIES = 0;
+public final static int NUM_ENEMIES = 10;
 public final static int MAX_NUM_PLAYER_BULLETS = 50;
 public final static int MAX_NUM_ENEMY_BULLETS = 50;
 public final static int MAX_BULLET_LIFE = 200;
@@ -15,6 +15,7 @@ private int numPlayerBullets = 0;
 private int numEnemyBullets = 0;
 private int gameMode = 0;
 private int screenMode = 0;
+private int score = 0;
 
 //Key control variables
 private boolean keyWPressed = false;
@@ -75,6 +76,10 @@ public void draw() {
 			//show stars
 			for(Stars star: starField)
 				star.show();
+
+			fill(255);
+			textSize(15);
+			text("Score: " + score, 0, 15);
 
 			//control, move, and show player's ship
 		  	controlPlayerShip(playerShip);
@@ -283,55 +288,6 @@ public void asteroidEssentials(ArrayList <Asteroid> asteroids, int radius, Strin
 
 	}
 
-	//remove asteroid if it hits enemy ship
-	for(int i = 0; i < asteroids.size(); i++) {
-
-		for(int n = 0; n < enemies.size(); n++) {
-
-			if(asteroids.get(i).distFromFloater(enemies.get(n)) <= radius) {
-
-				//split asteroid into 4 if it is big
-				if(description.equals("big")) {
-
-					for(int j = 0; j < 4; j++)
-						smallRocks.add(new SmallAsteroid(rocks.get(i)));
-
-				}
-
-				asteroids.remove(i);
-				break;
-
-			}
-
-		}
-
-	}
-
-	//remove asteroid and enemybullet from if enemybullet hits asteroid
-	for(int i = 0; i < asteroids.size(); i++) {
-
-		for(int nI = 0; nI < enemyBullets.size(); nI++) {
-
-			if(asteroids.get(i).distFromFloater(enemyBullets.get(nI)) <= radius) {
-
-				//split asteroid into 4 if it is big
-				if(description.equals("big")) {
-
-					for(int j = 0; j < 4; j++)
-						smallRocks.add(new SmallAsteroid(rocks.get(i)));
-
-				}
-
-				enemyBullets.remove(nI);
-				asteroids.remove(i);
-				break;
-
-			}
-
-		}
-
-	}
-
 	//remove asteroid and playerbullet from if playerbullet hits asteroid
 	for(int i = 0; i < asteroids.size(); i++) {
 
@@ -347,6 +303,7 @@ public void asteroidEssentials(ArrayList <Asteroid> asteroids, int radius, Strin
 
 				}
 
+				score += 50;
 				playerBullets.remove(nI);
 				asteroids.remove(i);
 				break;
