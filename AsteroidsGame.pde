@@ -96,20 +96,15 @@ public void draw() {
 		  	//show, move, and remove playerBullets
 		  	bulletEssentials(playerBullets);
 
-		  	//update enemy ships
-			for(int i = 0; i < enemies.size(); i++) {
+		  	for(int i = 0; i < enemies.size(); i++) {
 
 				enemies.get(i).move(playerShip);
 		  		enemies.get(i).show();
 		  		enemies.get(i).shoot(enemyBullets);
 		  		enemies.get(i).updateHealth(playerBullets, rocks, smallRocks);
 
-		  		if(enemies.get(i).getHealth() <= 0) {
-		  			enemies.remove(i);
-		  			i--;
-		  		}
-
 			}
+
 
 			//show, move, and remove enemyBullets
 			bulletEssentials(enemyBullets);
@@ -129,6 +124,7 @@ public void draw() {
 							enemies.add(new EnemyShip());
 						}
 
+						playerShip.setHealth(100);
 						gameMode = 1;
 
 				  	}
@@ -139,16 +135,40 @@ public void draw() {
 
 				  	if(enemies.size() <= 0) {
 				  		enemies.add(new Boss());
+				  		playerShip.setHealth(100);
 				  		gameMode = 2;
 				  	}
+
+				  	//update enemy ships
+					for(int i = 0; i < enemies.size(); i++) {
+
+				  		if(enemies.get(i).getHealth() <= 0) {
+				  			score += 15000;
+				  			enemies.remove(i);
+				  			i--;
+				  		}
+
+					}
+
 				  	
 				break;
 
 				case 2 :
 
 					if(enemies.size() <= 0) {
+						score += playerShip.getHealth()*100;
 				  		screenMode = 3;
 				  	}
+
+				  	for(int i = 0; i < enemies.size(); i++) {
+
+				  		if(enemies.get(i).getHealth() <= 0) {
+				  			score += 10000000;
+				  			enemies.remove(i);
+				  			i--;
+				  		}
+
+					}
 
 				break;
 			}
@@ -160,6 +180,7 @@ public void draw() {
 			fill(255);
 			textSize(50);
 			text("GAME OVER", 350, 400);
+			text("SCORE: " + score, 350, 450);
 
 		break;
 
@@ -168,6 +189,7 @@ public void draw() {
 			fill(255);
 			textSize(50);
 			text("YOU WIN!!", 370, 400);
+			text("SCORE: " + score, 370, 450);
 
 		break;
 		

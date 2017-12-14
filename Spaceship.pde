@@ -50,6 +50,7 @@ class Spaceship extends Floater {
     public void setAccelerating(boolean b) { accelerating = b; }
     public boolean getAccelerating() { return accelerating; }
     public float getHealth() { return myHealth; }
+    public void setHealth(int h) { myHealth = h; }
 
 
     public void move () {
